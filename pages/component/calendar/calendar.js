@@ -26,17 +26,9 @@ Component({
     month: 1,
   },
   lifetimes: {
-    /** 组件实例刚刚被创建好时 */
-    created: function () {
-      var now = new Date();
-      this.setData({
-        year: now.getFullYear(),
-        month: now.getMonth() + 1
-      })
-    },
     /** 在组件完全初始化完毕、进入页面节点树后 */
     attached: function () {
-      this._refreshMonthDaysView();
+      this.showCurrentMonth();
     },
   },
   methods: {
@@ -196,6 +188,18 @@ Component({
           year: this.data.year + 1,
         }),
         this._refreshMonthDaysView();
+    },
+
+    /**
+     * 显示显示日期所在月份
+     */
+    showCurrentMonth: function () {
+      var now = new Date();
+      this.setData({
+        year: now.getFullYear(),
+        month: now.getMonth() + 1
+      })
+      this._refreshMonthDaysView();
     },
 
     /**
