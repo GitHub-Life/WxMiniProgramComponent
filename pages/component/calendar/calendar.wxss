@@ -1,0 +1,55 @@
+/* pages/im-calendar/calendar.wxss */
+.year_month_header {
+  height: 70rpx;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 36rpx;
+}
+.year_month_text {
+  flex: 1;
+  text-align:center;
+}
+.arrow {
+  width: 70rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.arrow_left {
+  transform: rotate(180deg);
+}
+
+.week_header {
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  font-size: small;
+}
+.week_header_item {
+  flex: 1;
+  text-align: center;
+}
+.month_view {
+  font-size: 0;
+}
+.day {
+  display: inline-block;
+  width: 14.28%;
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  font-size: 36rpx;
+  overflow: hidden;
+  font-weight: 300;
+}
+.not_month_day {
+  font-weight: 100;
+  opacity: 0.5;
+}
+
+/* .selected_day {
+  color: #fff; 
+  background-color: #555;
+} */

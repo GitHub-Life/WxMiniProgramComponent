@@ -1,0 +1,21 @@
+/* pages/index/index.wxss */
+page {
+  height: 100%;
+  background-color: #eee;
+}
+
+.btns_view {
+  display: flex;
+  margin-top: 20rpx;
+}
+
+button {
+  flex: 1;
+  border-width: 1rpx;
+  border-color: #555;
+  border-style: solid;
+}
+
+.show_dates_view {
+  text-align: center;
+}
