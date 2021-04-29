@@ -14,6 +14,12 @@ Component({
         selectedBgColor: "#555",
         /** 是否只显示当前月 */
         onlyShowCurrentMonth: true,
+        /** 禁用跳转至其它月份 */
+        disableToOtherMonth: false,
+        /** 禁止选择 */
+        disableSelect: false,
+        /** 只读，相当于 disableToOtherMonth 和 disableSelect 都为 true*/
+        readonly: false,
       }
     },
   },
@@ -98,7 +104,7 @@ Component({
               "year": nextMonth_year,
               "month": nextMonth,
               "day": dayNum++,
-              "week": lastLineDayNum + dayNum - 2 
+              "week": lastLineDayNum + dayNum - 2
             });
           }
         }
@@ -191,7 +197,7 @@ Component({
     },
 
     /**
-     * 显示显示日期所在月份
+     * 显示当前现实日期所在月份
      */
     showCurrentMonth: function () {
       var now = new Date();
@@ -207,6 +213,7 @@ Component({
      * @param {*} dayView 
      */
     _dayClick: function (dayView) {
+      if (this.properties.config.readonly || this.properties.config.disableSelect) return;
       var idx = dayView.currentTarget.dataset.idx;
       var days = this.data.monthDays;
       var item = days[idx];

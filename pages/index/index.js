@@ -16,6 +16,12 @@ Page({
         selectedBgColor: "#777",
         /** 是否只显示当前月 */
         onlyShowCurrentMonth: false,
+        /** 禁用跳转至其它月份 */
+        disableToOtherMonth: false,
+        /** 禁止选择 */
+        disableSelect: false,
+        /** 只读，相当于 disableToOtherMonth 和 disableSelect 都为 true*/
+        readonly: false,
     },
     selectedDates: [],
     weeks: ['日', '一', '二', '三', '四', '五', '六'],

@@ -3,13 +3,13 @@
   style="color:{{config.themeColor}}; background-color:{{config.backgroundColor}};">
   <!-- ◀ <  yyyy年MM月  > ▶ -->
   <view class="year_month_header">
-    <mp-icon type="field" icon="play" class="arrow arrow_left" size="20" color="{{config.themeColor}}"
+    <mp-icon wx:if="{{!config.readonly && !config.disableToOtherMonth}}" type="field" icon="play" class="arrow arrow_left" size="20" color="{{config.themeColor}}"
       bindtap="_lastYear"></mp-icon>
-    <mp-icon icon="arrow" class="arrow arrow_left" size="12" color="{{config.themeColor}}" bindtap="_lastMonth">
+    <mp-icon wx:if="{{!config.readonly && !config.disableToOtherMonth}}" icon="arrow" class="arrow arrow_left" size="12" color="{{config.themeColor}}" bindtap="_lastMonth">
     </mp-icon>
     <text class="year_month_text" bindlongpress="showCurrentMonth">{{year}}年{{month}}月</text>
-    <mp-icon icon="arrow" class="arrow" size="12" color="{{config.themeColor}}" bindtap="_nextMonth"></mp-icon>
-    <mp-icon type="field" icon="play" class="arrow" size="20" color="{{config.themeColor}}" bindtap="_nextYear">
+    <mp-icon wx:if="{{!config.readonly && !config.disableToOtherMonth}}" icon="arrow" class="arrow" size="12" color="{{config.themeColor}}" bindtap="_nextMonth"></mp-icon>
+    <mp-icon wx:if="{{!config.readonly && !config.disableToOtherMonth}}" type="field" icon="play" class="arrow" size="20" color="{{config.themeColor}}" bindtap="_nextYear">
     </mp-icon>
   </view>
   <!-- [日 一 二 三 四 五 六] -->
