@@ -1,5 +1,5 @@
 <!--pages/index/index.wxml-->
-<im-calendar id="calendar" config="{{calendarConfig}}"></im-calendar>
+<im-calendar id="calendar"></im-calendar>
 
 <view class="btns_view">
   <button bindtap="getSelectedDates">获取选中</button>

@@ -13,7 +13,7 @@ Component({
         /** 选中日期的背景色 */
         selectedBgColor: "#555",
         /** 是否只显示当前月 */
-        onlyShowCurrentMonth: true,
+        onlyShowCurrentMonth: false,
         /** 禁用跳转至其它月份 */
         disableToOtherMonth: false,
         /** 禁止选择 */
@@ -48,7 +48,7 @@ Component({
       // 上个月  
       var lastMonthDays = new Array();
       var showLastMonthDayNum = firstDayWeek;
-      if (!this.data.config.onlyShowCurrentMonth) {
+      if (!(this.properties.config && this.properties.config.onlyShowCurrentMonth)) {
         var lastMonthDayNum = 0;
         var lastMonth = this.data.month - 1;
         var lastMonth_year = this.data.year;
@@ -88,7 +88,7 @@ Component({
 
       // 下个月
       var nextMonthDays = new Array();
-      if (!this.data.config.onlyShowCurrentMonth) {
+      if (!(this.properties.config && this.properties.config.onlyShowCurrentMonth)) {
         var nextMonth = this.data.month + 1;
         var nextMonth_year = this.data.year;
         if (nextMonth > 12) {
@@ -213,7 +213,7 @@ Component({
      * @param {*} dayView 
      */
     _dayClick: function (dayView) {
-      if (this.properties.config.readonly || this.properties.config.disableSelect) return;
+      if (this.properties.config && (this.properties.config.readonly || this.properties.config.disableSelect)) return;
       var idx = dayView.currentTarget.dataset.idx;
       var days = this.data.monthDays;
       var item = days[idx];
