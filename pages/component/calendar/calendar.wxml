@@ -24,7 +24,7 @@
       style="color:{{(item.week == 0 || item.week == 6) ? config.weekendColor : config.themeColor}}">
       {{item.day}}</view>
     <!-- 当月 -->
-    <view wx:for="{{monthDays}}" wx:key="day" class="day" bindtap="_dayClick" data-idx="{{index}}"
+    <view wx:for="{{monthDays}}" wx:key="day" class="day" bindtap="_dayTap" data-idx="{{index}}"
       style="{{item.selected ? 'color:#fff; background-color:'+config.selectedBgColor : 'color:'+((item.week == 0 || item.week == 6) ? config.weekendColor : config.themeColor)}}">
       {{item.day}}</view>
     <!-- 下个月 -->

@@ -11,7 +11,7 @@ Page({
         /** 文字主题色 */
         themeColor: "#555",
         /** 周末文字色 */
-        weekendColor: "#c00",
+        weekendColor: "#555",
         /** 选中日期的背景色 */
         selectedBgColor: "#777",
         /** 是否只显示当前月 */
@@ -31,6 +31,9 @@ Page({
     this.setData({
       calendar: this.selectComponent("#calendar")
     })
+  },
+  dayTap: function (e) {
+    console.log(e.detail);
   },
   getSelectedDates: function () {
     this.setData({

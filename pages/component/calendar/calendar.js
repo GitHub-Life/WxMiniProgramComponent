@@ -18,7 +18,7 @@ Component({
         disableToOtherMonth: false,
         /** 禁止选择 */
         disableSelect: false,
-        /** 只读，相当于 disableToOtherMonth 和 disableSelect 都为 true*/
+        /** 只读，相当于 disableToOtherMonth 和 disableSelect 都为 true */
         readonly: false,
       }
     },
@@ -212,7 +212,7 @@ Component({
      * 某一天的点击事件
      * @param {*} dayView 
      */
-    _dayClick: function (dayView) {
+    _dayTap: function (dayView) {
       if (this.properties.config && (this.properties.config.readonly || this.properties.config.disableSelect)) return;
       var idx = dayView.currentTarget.dataset.idx;
       var days = this.data.monthDays;
@@ -222,6 +222,7 @@ Component({
       this.setData({
         monthDays: days
       })
+      this.triggerEvent('daytap', item);
     },
 
     /**
