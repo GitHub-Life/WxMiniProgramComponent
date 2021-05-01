@@ -1,35 +1,34 @@
 <!--pages/im-calendar/calendar.wxml-->
-<view class="calendar_container"
-  style="color:{{config.themeColor}}; background-color:{{config.backgroundColor}};">
+<view class="calendar_container" style="color:{{themeColor}};background-color:{{backgroundColor}}">
   <!-- ◀ <  yyyy年MM月  > ▶ -->
   <view class="year_month_header">
-    <mp-icon wx:if="{{!config.readonly && !config.disableToOtherMonth}}" type="field" icon="play" class="arrow arrow_left" size="20" color="{{config.themeColor}}"
+    <mp-icon wx:if="{{!readonly && !disableToOtherMonth}}" type="field" icon="play" class="arrow arrow_left" size="20" color="{{themeColor}}"
       bindtap="_lastYear"></mp-icon>
-    <mp-icon wx:if="{{!config.readonly && !config.disableToOtherMonth}}" icon="arrow" class="arrow arrow_left" size="12" color="{{config.themeColor}}" bindtap="_lastMonth">
+    <mp-icon wx:if="{{!readonly && !disableToOtherMonth}}" icon="arrow" class="arrow arrow_left" size="12" color="{{themeColor}}" bindtap="_lastMonth">
     </mp-icon>
     <text class="year_month_text" bindlongpress="showCurrentMonth">{{year}}年{{month}}月</text>
-    <mp-icon wx:if="{{!config.readonly && !config.disableToOtherMonth}}" icon="arrow" class="arrow" size="12" color="{{config.themeColor}}" bindtap="_nextMonth"></mp-icon>
-    <mp-icon wx:if="{{!config.readonly && !config.disableToOtherMonth}}" type="field" icon="play" class="arrow" size="20" color="{{config.themeColor}}" bindtap="_nextYear">
+    <mp-icon wx:if="{{!readonly && !disableToOtherMonth}}" icon="arrow" class="arrow" size="12" color="{{themeColor}}" bindtap="_nextMonth"></mp-icon>
+    <mp-icon wx:if="{{!readonly && !disableToOtherMonth}}" type="field" icon="play" class="arrow" size="20" color="{{themeColor}}" bindtap="_nextYear">
     </mp-icon>
   </view>
   <!-- [日 一 二 三 四 五 六] -->
   <view class="week_header">
     <view class="week_header_item" wx:for="{{weekHeader}}" wx:key="*this"
-      style="color:{{(index == 0 || index == 6) ? config.weekendColor : config.themeColor}}">{{item}}
+      style="color:{{(index == 0 || index == 6) ? weekendColor : themeColor}}">{{item}}
     </view>
   </view>
   <view class="month_view">
     <!-- 上个月 -->
     <view wx:for="{{lastMonthDays}}" wx:key="day" class="day not_month_day"
-      style="color:{{(item.week == 0 || item.week == 6) ? config.weekendColor : config.themeColor}}">
+      style="color:{{(item.week == 0 || item.week == 6) ? weekendColor : themeColor}}">
       {{item.day}}</view>
     <!-- 当月 -->
     <view wx:for="{{monthDays}}" wx:key="day" class="day" bindtap="_dayTap" data-idx="{{index}}"
-      style="{{item.selected ? 'color:#fff; background-color:'+config.selectedBgColor : 'color:'+((item.week == 0 || item.week == 6) ? config.weekendColor : config.themeColor)}}">
+      style="{{item.selected ? 'color:#fff; background-color:'+selectedBgColor : 'color:'+((item.week == 0 || item.week == 6) ? weekendColor : themeColor)}}">
       {{item.day}}</view>
     <!-- 下个月 -->
     <view wx:for="{{nextMonthDays}}" wx:key="day" class="day not_month_day"
-      style="color:{{(item.week == 0 || item.week == 6) ? config.weekendColor : config.themeColor}}">
+      style="color:{{(item.week == 0 || item.week == 6) ? weekendColor : themeColor}}">
       {{item.day}}</view>
   </view>
 </view>

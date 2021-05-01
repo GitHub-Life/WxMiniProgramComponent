@@ -1,26 +1,53 @@
 // pages/im-calendar/calendar.js
 Component({
   properties: {
-    config: {
-      type: Object,
-      value: {
-        /** 日历组件背景色 */
-        backgroundColor: "#fff",
-        /** 文字主题色 */
-        themeColor: "#555",
-        /** 周末文字色 */
-        weekendColor: "#b00",
-        /** 选中日期的背景色 */
-        selectedBgColor: "#555",
-        /** 是否只显示当前月 */
-        onlyShowCurrentMonth: false,
-        /** 禁用跳转至其它月份 */
-        disableToOtherMonth: false,
-        /** 禁止选择 */
-        disableSelect: false,
-        /** 只读，相当于 disableToOtherMonth 和 disableSelect 都为 true */
-        readonly: false,
-      }
+    /** 组件背景色 */
+    backgroundColor: {
+      type: String,
+      value: "#fff"
+    },
+    /** 文字主题色 */
+    themeColor: {
+      type: String,
+      value: "#555"
+    },
+    /** 周末文字色 */
+    weekendColor: {
+      type: String,
+      value: "#c00"
+    },
+    /** 选中日期的背景色 */
+    selectedBgColor: {
+      type: String,
+      value: "#555"
+    },
+    /** 是否只显示当前月 */
+    onlyShowCurrentMonth: {
+      type: Boolean,
+      value: false
+    },
+    /** 禁用跳转至其它月份 */
+    disableToOtherMonth: {
+      type: Boolean,
+      value: false
+    },
+    /** 禁止选择 */
+    disableSelect: {
+      type: Boolean,
+      value: false
+    },
+    /** 只读，相当于 disableToOtherMonth 和 disableSelect 都为 true */
+    readonly: {
+      type: Boolean,
+      value: false
+    },
+    /** 当前显示的年份 */
+    year: {
+      type: Number
+    },
+    /** 当前显示的月份 */
+    month: {
+      type: Number
     },
   },
   data: {
@@ -28,13 +55,15 @@ Component({
     monthDays: [],
     lastMonthDays: [],
     nextMonthDays: [],
-    year: 2020,
-    month: 1,
   },
   lifetimes: {
     /** 在组件完全初始化完毕、进入页面节点树后 */
     attached: function () {
-      this.showCurrentMonth();
+      if (this.properties.year == 0 || this.properties.month == 0) {
+        this.showCurrentMonth();
+      } else {
+        this._refreshMonthDaysView();
+      }
     },
   },
   methods: {
@@ -42,16 +71,16 @@ Component({
      * 计算日历视图数据并刷新页面
      */
     _refreshMonthDaysView: function () {
-      const firstDayWeek = this._calculateWeek(this.data.year + "-" + this.data.month + "-1");
-      const days = this._daysFromMonth(this.data.year, this.data.month);
+      const firstDayWeek = this._calculateWeek(this.properties.year + "-" + this.properties.month + "-1");
+      const days = this._daysFromMonth(this.properties.year, this.properties.month);
 
       // 上个月  
       var lastMonthDays = new Array();
       var showLastMonthDayNum = firstDayWeek;
-      if (!(this.properties.config && this.properties.config.onlyShowCurrentMonth)) {
+      if (!this.properties.onlyShowCurrentMonth) {
         var lastMonthDayNum = 0;
-        var lastMonth = this.data.month - 1;
-        var lastMonth_year = this.data.year;
+        var lastMonth = this.properties.month - 1;
+        var lastMonth_year = this.properties.year;
         if (lastMonth < 1) {
           lastMonth = 12;
           lastMonth_year -= 1;
@@ -79,8 +108,8 @@ Component({
       for (var i = 0; i < days; i++) {
         var week = (firstDayWeek + i) % 7;
         monthDays.push({
-          "year": this.data.year,
-          "month": this.data.month,
+          "year": this.properties.year,
+          "month": this.properties.month,
           "day": (i + 1),
           "week": week
         });
@@ -88,9 +117,9 @@ Component({
 
       // 下个月
       var nextMonthDays = new Array();
-      if (!(this.properties.config && this.properties.config.onlyShowCurrentMonth)) {
-        var nextMonth = this.data.month + 1;
-        var nextMonth_year = this.data.year;
+      if (!this.properties.onlyShowCurrentMonth) {
+        var nextMonth = this.properties.month + 1;
+        var nextMonth_year = this.properties.year;
         if (nextMonth > 12) {
           nextMonth = 12;
           nextMonth_year += 1;
@@ -147,10 +176,10 @@ Component({
      * 显示上个月的日历
      */
     _lastMonth: function () {
-      var month = this.data.month - 1;
+      var month = this.properties.month - 1;
       if (month < 1) {
         this.setData({
-          year: this.data.year - 1,
+          year: this.properties.year - 1,
           month: 12
         })
       } else {
@@ -164,10 +193,10 @@ Component({
      * 显示下个月的日历
      */
     _nextMonth: function () {
-      var month = this.data.month + 1;
+      var month = this.properties.month + 1;
       if (month > 12) {
         this.setData({
-          year: this.data.year + 1,
+          year: this.properties.year + 1,
           month: 1
         })
       } else {
@@ -182,7 +211,7 @@ Component({
      */
     _lastYear: function () {
       this.setData({
-          year: this.data.year - 1,
+          year: this.properties.year - 1,
         }),
         this._refreshMonthDaysView();
     },
@@ -191,9 +220,26 @@ Component({
      */
     _nextYear: function () {
       this.setData({
-          year: this.data.year + 1,
+          year: this.properties.year + 1,
         }),
         this._refreshMonthDaysView();
+    },
+
+    /**
+     * 某一天的点击事件
+     * @param {*} dayView 
+     */
+    _dayTap: function (dayView) {
+      if (this.properties.readonly || this.properties.disableSelect) return;
+      var idx = dayView.currentTarget.dataset.idx;
+      var days = this.data.monthDays;
+      var item = days[idx];
+      item.selected = !item.selected;
+      days.splice(idx, 1, item);
+      this.setData({
+        monthDays: days
+      })
+      this.triggerEvent('daytap', item);
     },
 
     /**
@@ -209,20 +255,15 @@ Component({
     },
 
     /**
-     * 某一天的点击事件
-     * @param {*} dayView 
+     * 跳转至参数对应的年月
+     * @param {Object} yearMonth 格式为：{year:2020,month:06}
      */
-    _dayTap: function (dayView) {
-      if (this.properties.config && (this.properties.config.readonly || this.properties.config.disableSelect)) return;
-      var idx = dayView.currentTarget.dataset.idx;
-      var days = this.data.monthDays;
-      var item = days[idx];
-      item.selected = !item.selected;
-      days.splice(idx, 1, item);
+    jumpToYearMonth: function (yearMonth) {
       this.setData({
-        monthDays: days
+        year: yearMonth.year,
+        month: yearMonth.month
       })
-      this.triggerEvent('daytap', item);
+      this._refreshMonthDaysView();
     },
 
     /**
@@ -240,29 +281,29 @@ Component({
 
     /**
      * 设置选中的日期集合，自动跳转到集合第一个元素所示月份显示，只能显示此月份的选中
-     * @param {Array} dates 日期集合["2021-4-21","2021-4-25",……]
+     * @param {Array} dates 日期集合，格式为：[{year:2021,month:4,day:24},{year:2021,month:4,day:26},……]
      */
     setSelectedDates: function (dates) {
-      var showYear = 0;
-      var showMonth = 1;
-      var days = this.data.monthDays;
-      for (const date of days) {
-        date.selected = false;
-      }
-      for (const date of dates) {
-        let nums = date.split("-");
-        let year = parseInt(nums[0]);
-        let month = parseInt(nums[1]);
-        if (showYear == 0) {
-          showYear = year;
-          showMonth = month;
+      let showYear = dates[0].year;
+      let showMonth = dates[0].month;
+      if (showYear != this.properties.year || showMonth != this.properties.month) {
+        this.setData({
+          year: showYear,
+          month: showMonth
+        });
+        this._refreshMonthDaysView();
+      } else {
+        for (const date of this.data.monthDays) {
+          date.selected = false;
         }
-        if (year != showYear || month != showMonth) continue;
-        let day = parseInt(nums[2]);
-        if (day >= days.length) continue;
-        var item = days[day - 1];
+      }
+
+      let days = this.data.monthDays;
+      for (const date of dates) {
+        if (date.year != showYear || date.month != showMonth || date.day > days.length) continue;
+        var item = days[date.day - 1];
         item.selected = true;
-        days.splice(day - 1, 1, item);
+        days.splice(date.day - 1, 1, item);
       }
       this.setData({
         monthDays: days

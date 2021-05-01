@@ -4,6 +4,10 @@ page {
   background-color: #eee;
 }
 
+#calendar {
+  background-color: #fff;
+}
+
 .btns_view {
   display: flex;
   margin-top: 20rpx;
